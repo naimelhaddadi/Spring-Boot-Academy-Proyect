@@ -18,17 +18,17 @@ public class StudentController {
     }
     //Show a student with the same email
     @GetMapping("/students/{email}")
-    public Student getStudentEmail(String email){
+    public Student getStudentEmail(@PathVariable String email){
         return studentService.emailStudent(email);
     }
     //filter by course
     @GetMapping("/students/course/{course}")
-    public Student getStudentsCourse(String course){
+    public List<Student> getStudentsCourse(@PathVariable String course){
         return studentService.courseFilter(course);
     }
     //grades ordered from top
     @GetMapping("/students/top/{n}")
-    public List<Student> topGrades(long n){
+    public List<Student> topGrades(@PathVariable long n){
         return studentService.topGrades(n);
     }
     //students stats
@@ -42,7 +42,7 @@ public class StudentController {
         return studentService.addStudent(student);
     }
     //Modifygrade
-    @PutMapping("/students/{email/grade}")
+    @PutMapping("/students/{email}/grade")
     public Student modifyGrade(@PathVariable String email, @RequestBody double grade){
         return studentService.modifyGrade(email,grade);
     }

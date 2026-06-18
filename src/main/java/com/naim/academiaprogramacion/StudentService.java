@@ -7,7 +7,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-@ControllerAdvice
 public class StudentService{
 
     private StudentRepository studentRepository;
@@ -29,11 +28,10 @@ public class StudentService{
                 ;
     }
     //filter by course
-    public Student courseFilter(String course){
+    public List<Student> courseFilter(String course){
         return studentRepository.findAll().stream()
                 .filter(n->n.getCourse().equals(course.toUpperCase()))
-                .findAny()
-                .orElse(null);
+                .collect(Collectors.toList());
     }
     //grades ordered from top
     public List<Student> topGrades(long n){
@@ -67,7 +65,6 @@ public class StudentService{
     //modify the grade
     public Student modifyGrade(String email,double grade){
         Student student=emailStudent(email);
-        studentRepository.findAll().stream().filter(n->n.getEmail().equals(email));
         student.setGrade(grade);
 
         return studentRepository.save(student);

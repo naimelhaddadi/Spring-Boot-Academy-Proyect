@@ -7,7 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class Student {
+public class Student implements Validate{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,17 +20,11 @@ public class Student {
     public Student(Long id, String name, String email,String course, double grade){
         this.id=id;
         this.name=name;
-        if(email.contains("@")){
-            this.email=email;
-        }else{throw new DateInvalidException("Invalid Email: The email has to have @");}
-
-        if (course.equals("JAVA") || course.equals("PYTHON") || course.equals("JAVASCRIPT")){
-            this.course=course;
-        }else {throw new DateInvalidException("Invalid Course(JAVA,PYTHON OR JAVASCRIPT)");}
-
-        if (grade<0.0 || grade > 10.0){throw new DateInvalidException("Invalid grade(0-10)");}
+        this.email=email;
+        this.course=course;
         this.grade=grade;
         this.activate=false;
+        validate();
     }
     public Student(){}
 
@@ -81,7 +75,17 @@ public class Student {
     public void setActivate(boolean activate) {
         this.activate = activate;
     }
-}
+
+    @Override
+    public void validate() {
+            if (grade < 0.0 || grade > 10.0) throw new DateInvalidException("Invalid grade(0-10)");
+            if (!course.equals("JAVA") && !course.equals("PYTHON") && !course.equals("JAVASCRIPT"))
+                throw new DateInvalidException("Invalid Course");
+            if (!email.contains("@"))
+                throw new DateInvalidException("Invalid Email");
+        }
+    }
+
 
 class DateInvalidException extends RuntimeException{
     public DateInvalidException(String message){
