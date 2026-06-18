@@ -57,7 +57,7 @@ public class StudentService{
         if(student.isActivate()){
             System.out.println("Is already in");
         }else{
-            student.isActivate();
+            student.setActivate(true);
         }
         return studentRepository.save(student);
     }
