@@ -54,6 +54,7 @@ public class StudentService{
 
     //add new student
     public Student addStudent(Student student){
+        student.validate();
         if(student.isActivate()){
             System.out.println("Is already in");
         }else{
@@ -64,7 +65,9 @@ public class StudentService{
 
     //modify the grade
     public Student modifyGrade(String email,double grade){
+
         Student student=emailStudent(email);
+        if (student == null) { throw new DateInvalidException("Student not found"); }
         student.setGrade(grade);
 
         return studentRepository.save(student);
@@ -72,6 +75,7 @@ public class StudentService{
     //delete by email
     public void deleteStudent(String email){
         Student student=emailStudent(email);
+        if (student == null) { throw new DateInvalidException("Student not found"); }
         studentRepository.deleteById(student.getId());
     }
 
