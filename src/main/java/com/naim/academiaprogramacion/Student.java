@@ -5,15 +5,24 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
-public class Student implements Validate{
+public class Student{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank
     private String name;
+    @Email
     private String email;
+    @NotBlank
     private String course;
+    @Min(value=0,message = "La nota debe estar entre 0 y 10")@Max(value = 10, message = "La nota debe estar entre 0 y 10")
     private double grade;
     private boolean activate;
 
@@ -24,7 +33,6 @@ public class Student implements Validate{
         this.course=course;
         this.grade=grade;
         this.activate=false;
-        validate();
     }
     public Student(){}
 
@@ -76,14 +84,6 @@ public class Student implements Validate{
         this.activate = activate;
     }
 
-    @Override
-    public void validate() {
-            if (grade < 0.0 || grade > 10.0) throw new DateInvalidException("Invalid grade(0-10)");
-            if (!course.equals("JAVA") && !course.equals("PYTHON") && !course.equals("JAVASCRIPT"))
-                throw new DateInvalidException("Invalid Course");
-            if (!email.contains("@"))
-                throw new DateInvalidException("Invalid Email");
-        }
     }
 
 

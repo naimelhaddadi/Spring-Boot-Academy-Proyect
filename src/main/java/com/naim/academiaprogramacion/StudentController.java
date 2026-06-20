@@ -1,5 +1,6 @@
 package com.naim.academiaprogramacion;
 
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,7 +39,7 @@ public class StudentController {
     }
     //Add new students
     @PostMapping("/students")
-    public Student addStudent1(@RequestBody Student student){
+    public Student addStudent1(@Valid @RequestBody Student student){
         return studentService.addStudent(student);
     }
     //Modifygrade

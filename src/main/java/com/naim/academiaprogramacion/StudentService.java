@@ -54,7 +54,8 @@ public class StudentService{
 
     //add new student
     public Student addStudent(Student student){
-        student.validate();
+        Student existing=emailStudent(student.getEmail());
+        if(existing != null ){throw new DateInvalidException("Email already exist");}
         if(student.isActivate()){
             System.out.println("Is already in");
         }else{
